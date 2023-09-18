@@ -120,4 +120,4 @@ services:
   instance_size_slug: professional-xs
   name: cronjob
   run_command: php scheduler.php
-  source_dir: /
+  source_dir: /schedular-app
