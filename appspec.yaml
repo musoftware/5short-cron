@@ -108,6 +108,10 @@ services:
   source_dir: /
 workers:
 - environment_slug: php
+  envs:
+  - key: DATABASE_URL
+    scope: RUN_TIME
+    value: ${db-mysql-fra1-32267.DATABASE_URL}
   github:
     branch: main
     deploy_on_push: true
