@@ -106,13 +106,18 @@ services:
   name: ziad
   run_command: heroku-php-apache2 public/
   source_dir: /
-workers:
-- dockerfile_path: Dockerfile
+- environment_slug: php
+  envs:
+  - key: DATABASE_URL
+    scope: RUN_TIME
+    value: ${db-mysql-fra1-32267.DATABASE_URL}
   github:
     branch: main
     deploy_on_push: true
-    repo: musoftware/5short-cron
+    repo: musoftware/shortlinksV2-Ziad
+  http_port: 8081
   instance_count: 1
   instance_size_slug: professional-xs
-  name: fiveshortcron
+  name: cronjob
+  run_command: php scheduler.php
   source_dir: /
