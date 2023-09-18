@@ -1,0 +1,1 @@
+doctl apps spec get cfd7a1cd-dea2-4fec-881b-e0cb613edd99 > appspec.yaml

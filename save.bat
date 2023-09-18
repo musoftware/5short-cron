@@ -1,0 +1,1 @@
+doctl apps update cfd7a1cd-dea2-4fec-881b-e0cb613edd99 --spec appspec.yaml

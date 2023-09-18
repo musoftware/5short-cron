@@ -1,0 +1,118 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+databases:
+- cluster_name: db-mysql-fra1-32267
+  db_name: defaultdb
+  db_user: short5
+  engine: MYSQL
+  name: db-mysql-fra1-32267
+  production: true
+  version: "8"
+- cluster_name: db-redis-fra1-02795
+  engine: REDIS
+  name: db-redis-fra1-02795
+  production: true
+  version: "7"
+domains:
+- domain: www.5short.net
+  type: PRIMARY
+  zone: 5short.net
+- domain: 5short.net
+  type: ALIAS
+  zone: 5short.net
+envs:
+- key: APP_ENV
+  scope: RUN_AND_BUILD_TIME
+  value: production
+- key: APP_DEBUG
+  scope: RUN_AND_BUILD_TIME
+  value: "false"
+- key: RECAPTCHA_SITE_KEY
+  scope: RUN_AND_BUILD_TIME
+  value: 6LeufconAAAAADKeP-t1O7mPZNk73TYxMQXB7Voh
+- key: RECAPTCHA_SECRET_KEY
+  scope: RUN_AND_BUILD_TIME
+  value: 6LeufconAAAAAMnunL9DD_NDz__NMRbdn9s1rUty
+- key: PHP_EXTENSIONS
+  scope: RUN_AND_BUILD_TIME
+  value: gd
+- key: DO_SPACES_KEY
+  scope: RUN_AND_BUILD_TIME
+  value: DO00BUG7J2UL8REDBLN4
+- key: DO_SPACES_SECRET
+  scope: RUN_AND_BUILD_TIME
+  value: w+fiurRc/MNn5Akds5ULREZEfW3hhN7IVPEjpnG1wOc
+- key: DO_SPACES_ENDPOINT
+  scope: RUN_AND_BUILD_TIME
+  value: https://fra1.digitaloceanspaces.com
+- key: DO_SPACES_REGION
+  scope: RUN_AND_BUILD_TIME
+  value: FRA1
+- key: DO_SPACES_BUCKET
+  scope: RUN_AND_BUILD_TIME
+  value: 5-short
+- key: APP_HTTP_DEBUG
+  scope: RUN_AND_BUILD_TIME
+  value: "false"
+- key: REDIS_HOST
+  scope: RUN_AND_BUILD_TIME
+  value: db-redis-fra1-02795-do-user-14667719-0.b.db.ondigitalocean.com
+- key: REDIS_PORT
+  scope: RUN_AND_BUILD_TIME
+  value: "25061"
+- key: REDIS_PASSWORD
+  scope: RUN_AND_BUILD_TIME
+  value: AVNS_g5NIb9Ku-dVQ6v5BL0p
+- key: REDIS_DB
+  scope: RUN_AND_BUILD_TIME
+  value: defaultdb
+- key: REDIS_URL
+  scope: RUN_AND_BUILD_TIME
+  value: tls://db-redis-fra1-02795-do-user-14667719-0.b.db.ondigitalocean.com
+- key: APP_STORAGE_DISK
+  scope: RUN_AND_BUILD_TIME
+  value: do_spaces
+- key: SESSION_DRIVER
+  scope: RUN_AND_BUILD_TIME
+  value: redis
+- key: CACHE_DRIVER
+  scope: RUN_AND_BUILD_TIME
+  value: redis
+features:
+- buildpack-stack=ubuntu-22
+ingress:
+  rules:
+  - component:
+      name: ziad
+    match:
+      path:
+        prefix: /
+name: five-short
+region: fra
+services:
+- environment_slug: php
+  envs:
+  - key: DATABASE_URL
+    scope: RUN_TIME
+    value: ${db-mysql-fra1-32267.DATABASE_URL}
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: musoftware/shortlinksV2-Ziad
+  http_port: 8080
+  instance_count: 2
+  instance_size_slug: professional-xs
+  name: ziad
+  run_command: heroku-php-apache2 public/
+  source_dir: /
+workers:
+- dockerfile_path: Dockerfile
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: musoftware/5short-cron
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: fiveshortcron
+  source_dir: /
