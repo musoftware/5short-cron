@@ -113,6 +113,6 @@ workers:
     deploy_on_push: true
     repo: musoftware/5short-cron
   instance_count: 1
-  instance_size_slug: basic-xxs
+  instance_size_slug: professional-xs
   name: fiveshortcron
   source_dir: /
